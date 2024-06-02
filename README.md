@@ -1,4 +1,4 @@
-# DEFI Lending and Borrow Protocol
+#  Borrowing and Lending Decentralized Application
 ## Assignment of members
 
 ### 1. Nhữ Đức Minh
