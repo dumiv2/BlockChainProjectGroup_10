@@ -47,7 +47,7 @@ The primary objective is to create a decentralized lending and borrowing platfor
 
 ## Evaluating User Profiles
 
-**Evaluate**: [User Evaluation](https://github.com/dumiv2/BlockChainProjectGroup_10/tree/main/src/EvaluateUser)
+**Evaluate**: [User Evaluation](https://github.com/dumiv2/BlockChainProjectGroup_10/tree/main/EvaluateUser)
 
 ## Conclusion
 - The project has successfully developed a lending and borrowing protocol on the blockchain, inspired by Aave's functionalities.
