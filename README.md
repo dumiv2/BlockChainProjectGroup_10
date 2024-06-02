@@ -45,8 +45,9 @@ The primary objective is to create a decentralized lending and borrowing platfor
     - MyToken.sol: [Link to deployed contract](https://amoy.polygonscan.com/address/0xB2def282Dd54101639D1e940eBd47D2F87dc8830)
     - LendingPool.sol: [Link to deployed contract](https://amoy.polygonscan.com/address/0xf2389E52327AdD85650C3A8DD1739822690BfC80)
 
-## Results and Test Data
-- [Link to test results]
+## Evaluating User Profiles
+
+**Evaluate**: [User Evaluation](https://github.com/dumiv2/BlockChainProjectGroup_10/tree/main/src/EvaluateUser)
 
 ## Conclusion
 - The project has successfully developed a lending and borrowing protocol on the blockchain, inspired by Aave's functionalities.
