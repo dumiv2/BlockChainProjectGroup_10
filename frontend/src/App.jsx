@@ -48,7 +48,7 @@ function App() {
 
           <div>
             <button className="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded">
-              Balance: {ethers.utils.formatUnits(balance, 18)} Eth
+              Balance: {ethers.utils.formatUnits(balance, 18)} MATIC
             </button>
           </div>
           <div>

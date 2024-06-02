@@ -23,7 +23,7 @@ const Borrow = () => {
         <div></div>
       </div>
       <div className="grid grid-cols-4 gap-1 justify-between mt-5 border-b-2 py-1 border-slate-400">
-        <div className="font-semibold">ETH</div>
+        <div className="font-semibold">MATIC</div>
         <div>0</div>
         <div className="justify-center align-middle">0</div>
         <div className="ml-5">

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from moralis import evm_api
 import requests
 from collections import defaultdict
 
@@ -10,25 +11,39 @@ response = requests.get(url)
 data = response.json()  # Parse response content as JSON
 
 def get_wallet_age(address):
-	url = f"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}"
-	headers = {"accept": "application/json", "api-key": "h6SXjiYikkFq8A2/QA9zM5Np8TV3WscDla/8iNT7WjPdZ8W4ccYwLUAwdb7Qzwjb"}
-	response = requests.get(url, headers=headers)
-	if response.status_code == 200:
-		data = response.json()
-		return data.get("data", {}).get("age", 0)
-	else:
-		return 0  # Return 0 if unable to fetch wallet age
-
-# Function to get wallet net worth
-def get_wallet_net_worth(address):
-    url = "https://deep-index.moralis.io/api/v2.2/wallets/{address}/net-worth?exclude_spam=true&exclude_unverified_contracts=true"
-    headers = {"X-API-Key": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjYwNWJlNDhhLTgyYjQtNGVjZS1iMjZlLTA3N2EzNzUxZGQxMSIsIm9yZ0lkIjoiMzk0Njc3IiwidXNlcklkIjoiNDA1NTU3IiwidHlwZUlkIjoiMGNhMDliYjQtZTJhMi00ZTVhLWI3MjEtOTQ4YjBjYmM2MmU2IiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTczMzU0NzksImV4cCI6NDg3MzA5NTQ3OX0.TU1tG94FtDKSO5agC9IMgTfO87W0BipjVcUiJ5ofSD8","accept": "application/json"}
+    url = f"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}"
+    headers = {
+        "accept": "application/json",
+        "api-key": "VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx"
+    }
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
-        return data.get("total_networth_usd")
+        return data.get("data", {}).get("age", 0)
     else:
+        return 0  # Return 0 if unable to fetch wallet age
+
+# Function to get wallet net worth
+# Function to get wallet net worth
+def get_wallet_net_worth(address):
+    api_key = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjYzOGVjYjYzLWZkMmYtNGQwYi04MmM3LWIwMTY5MzhjMzc4NCIsIm9yZ0lkIjoiMzk0Njg4IiwidXNlcklkIjoiNDA1NTY4IiwidHlwZUlkIjoiZjY0M2Q0NmYtN2FmNS00YjkyLTg1NGItMjdiYmFiMWY5NDZlIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTczMzk2NzQsImV4cCI6NDg3MzA5OTY3NH0.nJGW4mrObwRYKf86zu0lawxKlg3ZYnJQOH4IjvXGtR8"
+
+    params = {
+        "exclude_spam": True,
+        "exclude_unverified_contracts": True,
+        "address": address
+    }
+
+    try:
+        result = evm_api.wallets.get_wallet_net_worth(
+            api_key=api_key,
+            params=params,
+        )
+        return result.get("total_networth_usd")
+    except Exception as e:
+        print(f"An error occurred: {e}")
         return None  # Return None if unable to fetch net worth
+
 	
 
 # Function to calculate total deposit for each address
@@ -86,7 +101,7 @@ def score_address(deposit, frequency, wallet_age, net_worth_data):
     wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10
     
     if net_worth_data is not None:
-        total_net_worth = net_worth_data.get("total_networth_usd", None)
+        total_net_worth = net_worth_data
         if total_net_worth is not None:
             # Assuming net worth is in millions, adjust scaling as needed
             net_worth_score = min(float(total_net_worth) / 1000000, 10)  # Score based on net worth, capped at 10
@@ -115,7 +130,7 @@ for address, deposit in sorted_deposits.items():
 	# Fetch net worth
 
 	if net_worth_data:
-		total_net_worth = net_worth_data.get("total_networth_usd", "N/A")
+		total_net_worth = net_worth_data
 	else:
 		total_net_worth = "N/A"
 	
