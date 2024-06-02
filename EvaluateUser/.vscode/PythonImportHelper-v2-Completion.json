@@ -1,0 +1,403 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "defaultdict",
+        "importPath": "collections",
+        "description": "collections",
+        "isExtraImport": true,
+        "detail": "collections",
+        "documentation": {}
+    },
+    {
+        "label": "get_wallet_age",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def get_wallet_age(address):\n\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age\n# Function to get wallet net worth",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "get_wallet_net_worth",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def get_wallet_net_worth(address):\n    url = \"https://deep-index.moralis.io/api/v2.2/wallets/{address}/net-worth?exclude_spam=true&exclude_unverified_contracts=true\"\n    headers = {\"X-API-Key\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjhmZTVkN2VhLWZmNGEtNGRkNS1iZjViLWQ0OGExMTZhZDFlMSIsIm9yZ0lkIjoiMzkxOTU1IiwidXNlcklkIjoiNDAyNzQ4IiwidHlwZUlkIjoiN2E3ZTAxZTEtZjdhMi00MzhmLTk5M2UtNmRmOTVlOGQzMWUwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTU1MDc0NzksImV4cCI6NDg3MTI2NzQ3OX0.P6onv3wklATT5BqdzVGPQgRosV12isP9ZLOnW3esqqQ\",\"accept\": \"application/json\"}\n    response = requests.get(url, headers=headers)\n    if response.status_code == 200:\n        data = response.json()\n        return data.get(\"total_networth_usd\")\n    else:\n        return None  # Return None if unable to fetch net worth\n# Function to calculate total deposit for each address",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_total_deposit",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def calculate_total_deposit(data):\n\tdeposits = {}\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_interaction_frequency",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "score_address",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10\n    if net_worth_data is not None:\n        total_net_worth = net_worth_data.get(\"total_networth_usd\", None)\n        if total_net_worth is not None:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "def index():\n    # Get the page number from the query parameters or default to 1\n    page = request.args.get('page', default=1, type=int)\n    # Calculate the start and end index for the current page\n    start_index = (page - 1) * ROWS_PER_PAGE\n    end_index = start_index + ROWS_PER_PAGE\n    # Slice the table data to get the rows for the current page\n    table_data_page = table_data[start_index:end_index]\n    # Calculate the total number of pages\n    total_pages = len(table_data) // ROWS_PER_PAGE + (1 if len(table_data) % ROWS_PER_PAGE > 0 else 0)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "app = Flask(__name__)\nurl = \"https://api.etherscan.io/api?module=account&action=txlist&address=0x398eC7346DcD622eDc5ae82352F02bE94C62d119&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=BZ2XSINS4APIJ7UDYN91XF3MCTSY6D5KYI\"\nresponse = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "url",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "url = \"https://api.etherscan.io/api?module=account&action=txlist&address=0x398eC7346DcD622eDc5ae82352F02bE94C62d119&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=BZ2XSINS4APIJ7UDYN91XF3MCTSY6D5KYI\"\nresponse = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "response",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "response = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "data = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\turl",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\turl = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age\n# Function to get wallet net worth\ndef get_wallet_net_worth(address):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\theaders",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\theaders = {\"accept\": \"application/json\", \"api-key\": \"7x61hIeXp82O3a5FcEJum3v51uscBEoV5fOAVdUf20efzybVvBjKqKALUYNJQ6kO\"}\n\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age\n# Function to get wallet net worth\ndef get_wallet_net_worth(address):\n    url = \"https://deep-index.moralis.io/api/v2.2/wallets/{address}/net-worth?exclude_spam=true&exclude_unverified_contracts=true\"",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\tresponse",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\tresponse = requests.get(url, headers=headers)\n\tif response.status_code == 200:\n\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age\n# Function to get wallet net worth\ndef get_wallet_net_worth(address):\n    url = \"https://deep-index.moralis.io/api/v2.2/wallets/{address}/net-worth?exclude_spam=true&exclude_unverified_contracts=true\"\n    headers = {\"X-API-Key\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjhmZTVkN2VhLWZmNGEtNGRkNS1iZjViLWQ0OGExMTZhZDFlMSIsIm9yZ0lkIjoiMzkxOTU1IiwidXNlcklkIjoiNDAyNzQ4IiwidHlwZUlkIjoiN2E3ZTAxZTEtZjdhMi00MzhmLTk5M2UtNmRmOTVlOGQzMWUwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTU1MDc0NzksImV4cCI6NDg3MTI2NzQ3OX0.P6onv3wklATT5BqdzVGPQgRosV12isP9ZLOnW3esqqQ\",\"accept\": \"application/json\"}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tdata",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tdata = response.json()\n\t\treturn data.get(\"data\", {}).get(\"age\", 0)\n\telse:\n\t\treturn 0  # Return 0 if unable to fetch wallet age\n# Function to get wallet net worth\ndef get_wallet_net_worth(address):\n    url = \"https://deep-index.moralis.io/api/v2.2/wallets/{address}/net-worth?exclude_spam=true&exclude_unverified_contracts=true\"\n    headers = {\"X-API-Key\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjhmZTVkN2VhLWZmNGEtNGRkNS1iZjViLWQ0OGExMTZhZDFlMSIsIm9yZ0lkIjoiMzkxOTU1IiwidXNlcklkIjoiNDAyNzQ4IiwidHlwZUlkIjoiN2E3ZTAxZTEtZjdhMi00MzhmLTk5M2UtNmRmOTVlOGQzMWUwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTU1MDc0NzksImV4cCI6NDg3MTI2NzQ3OX0.P6onv3wklATT5BqdzVGPQgRosV12isP9ZLOnW3esqqQ\",\"accept\": \"application/json\"}\n    response = requests.get(url, headers=headers)\n    if response.status_code == 200:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\tdeposits",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\tdeposits = {}\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\ttransfers",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfrom_address",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tvalue",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfunc",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\t\t\tdeposits[from_address]",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\tinteractions",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\ttransfers",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfrom_address",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tto_address",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttimestamp",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "total_deposits",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "total_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "interactions",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "interactions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "interaction_frequency",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "interaction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttime_diffs_days",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tavg_time_diff_days",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tinteraction_frequency[address]",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "sorted_deposits",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "sorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10\n    if net_worth_data is not None:\n        total_net_worth = net_worth_data.get(\"total_networth_usd\", None)",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "ROWS_PER_PAGE",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "ROWS_PER_PAGE = 8\n# Prepare data for rendering\ntable_data = []\nfor address, deposit in sorted_deposits.items():\n\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "table_data",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "table_data = []\nfor address, deposit in sorted_deposits.items():\n\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\tfrequency",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\twallet_age",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\tnet_worth_data",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\toverall_score",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttotal_net_worth",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\ttotal_net_worth = net_worth_data.get(\"total_networth_usd\", \"N/A\")\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,\n\t\t\"wallet_age\": wallet_age,\n\t\t\"overall_score\": overall_score,\n\t\t\"total_net_worth\": total_net_worth",
+        "detail": "main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttotal_net_worth",
+        "kind": 5,
+        "importPath": "main",
+        "description": "main",
+        "peekOfCode": "\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,\n\t\t\"wallet_age\": wallet_age,\n\t\t\"overall_score\": overall_score,\n\t\t\"total_net_worth\": total_net_worth\n\t})\n@app.route('/')",
+        "detail": "main",
+        "documentation": {}
+    }
+]

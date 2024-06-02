@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Akita Rescue</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <style>
+        body,h1 {font-family: "Raleway", sans-serif}
+        body, html {height: 100%}
+        .bgimg {
+            background-image: url("{{ url_for('static', filename='logo.png') }}");
+            min-height: 100%;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            overflow-x: auto; /* Add horizontal scroll if table overflows */
+            position: relative;
+        }
+        .header-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100px;
+            height: 100px;
+        }
+        .footer-image {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+            text-align: center;
+        }
+        table {
+            width: calc(100% - 40px);
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        .good-address {
+            background-color: lightgreen;
+        }
+        .bad-address {
+            background-color: pink;
+        }
+        /* Style for small screens */
+        @media (max-width: 600px) {
+            table {
+                font-size: 12px;
+            }
+            th, td {
+                padding: 8px;
+            }
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            display: inline-block;
+            padding: 5px 10px;
+            margin: 0 5px;
+            background-color: #f2f2f2;
+            color: #333;
+            border-radius: 3px;
+            text-decoration: none;
+        }
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+        .pagination .page-link {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32">
+    <h1><b>Aave DeFi User Analysis 🚀</b></h1>
+</header>
+
+
+<div class="bgimg w3-display-container w3-animate-opacity w3-text-black">
+    <div class="w3-display-center w3-padding-large w3-large">
+        This dashboard provides insights into user activity within the Aave DeFi app, helping to determine the legitimacy and trustworthiness of users. It analyzes various factors such as total deposit, interaction frequency, wallet age, and net worth to generate an overall score for each user.
+    </div>
+
+    <div>
+    </div>
+
+    <div class="w3-display-bottomright w3-padding-large">
+        For more information about Aave DeFi, visit the official website <a href="https://aave.com/" target="_blank">here</a>.
+    </div>
+
+    <div class="w3-display-middle">
+        <div class="container form">
+            <hr>
+            <br>
+
+            <div style="overflow-x: auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Address</th>
+                            <th>Total Deposit (ETH)</th>
+                            <th>Interaction Frequency (days)</th>
+                            <th>Wallet Age (days)</th>
+                            <th>Net Worth (USD)</th>
+                            <th>Overall Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in table_data %}
+                            {% if loop.index <= 5 %}
+                                <tr class="{% if row.address in good_addresses %}good-address{% else %}bad-address{% endif %}">
+                                    <td>{{ row.address }}</td>
+                                    <td>{{ row.deposit }}</td>
+                                    <td>{{ row.frequency }}</td>
+                                    <td>{{ row.wallet_age }}</td>
+                                    <td>{{ row.total_net_worth }}</td>
+                                    <td>{{ row.overall_score }}</td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <!-- Display "Previous" button if current page is not the first page -->
+            {% if page > 1 %}
+                <a href="/?page={{ page - 1 }}" class="page-link">&laquo; Previous</a>
+            {% endif %}
+            
+            <!-- Display page numbers as buttons -->
+            {% for p in range(1, total_pages + 1) %}
+                <a href="/?page={{ p }}" class="page-link">{{ p }}</a>
+            {% endfor %}
+
+            <!-- Display "Next" button if current page is not the last page -->
+            {% if page < total_pages %}
+                <a href="/?page={{ page + 1 }}" class="page-link">Next &raquo;</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="w3-display-bottomleft w3-padding-large">
+        Powered by <a href="https://github.com/dumiv2/Blockchain-project.git" target="_blank">Blockchain-project</a>
+    </div>
+</div>
+
+</body>
+</html>
