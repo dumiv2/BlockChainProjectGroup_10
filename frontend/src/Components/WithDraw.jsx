@@ -24,7 +24,7 @@ const WithDraw = () => {
         <div></div>
       </div>
       <div className="grid grid-cols-5 gap-1 justify-between mt-5 border-b-2 py-1 border-slate-400">
-        <div className="font-semibold">ETH</div>
+        <div className="font-semibold">MATIC</div>
         <div>0</div>
         <div>0.0000001</div>
         <div className="justify-center align-middle">
