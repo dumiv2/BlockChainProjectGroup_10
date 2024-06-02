@@ -1,4 +1,4 @@
-# Aave Protocol Implementation on Blockchain
+# DEFI Lending and Borrow Protocol
 
 ## Overview
 This project aims to develop a lending and borrowing protocol on the blockchain inspired by Aave. The protocol allows users to lend cryptocurrency to earn interest and borrow against deposited collateral. It includes core features such as depositing, withdrawing, borrowing, and repaying, while managing collateralization and interest calculation.
