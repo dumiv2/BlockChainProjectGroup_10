@@ -1,4 +1,12 @@
 # DEFI Lending and Borrow Protocol
+## Assignment of members
+
+### 1. Nhữ Đức Minh
+
+### 2. Trần Minh Tuấn
+
+### 3. Đặng Mạnh Cường
+
 
 ## Overview
 This project aims to develop a lending and borrowing protocol on the blockchain inspired by Aave. The protocol allows users to lend cryptocurrency to earn interest and borrow against deposited collateral. It includes core features such as depositing, withdrawing, borrowing, and repaying, while managing collateralization and interest calculation.
