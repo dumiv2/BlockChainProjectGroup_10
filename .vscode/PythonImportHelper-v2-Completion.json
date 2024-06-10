@@ -1,0 +1,802 @@
+[
+    {
+        "label": "Flask",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "render_template",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "request",
+        "importPath": "flask",
+        "description": "flask",
+        "isExtraImport": true,
+        "detail": "flask",
+        "documentation": {}
+    },
+    {
+        "label": "evm_api",
+        "importPath": "moralis",
+        "description": "moralis",
+        "isExtraImport": true,
+        "detail": "moralis",
+        "documentation": {}
+    },
+    {
+        "label": "evm_api",
+        "importPath": "moralis",
+        "description": "moralis",
+        "isExtraImport": true,
+        "detail": "moralis",
+        "documentation": {}
+    },
+    {
+        "label": "requests",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "requests",
+        "description": "requests",
+        "detail": "requests",
+        "documentation": {}
+    },
+    {
+        "label": "defaultdict",
+        "importPath": "collections",
+        "description": "collections",
+        "isExtraImport": true,
+        "detail": "collections",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "re",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "re",
+        "description": "re",
+        "detail": "re",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "urllib2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "urllib2",
+        "description": "urllib2",
+        "detail": "urllib2",
+        "documentation": {}
+    },
+    {
+        "label": "os,",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os.",
+        "description": "os.",
+        "detail": "os.",
+        "documentation": {}
+    },
+    {
+        "label": "AES",
+        "importPath": "Crypto.Cipher",
+        "description": "Crypto.Cipher",
+        "isExtraImport": true,
+        "detail": "Crypto.Cipher",
+        "documentation": {}
+    },
+    {
+        "label": "Counter",
+        "importPath": "Crypto.Util",
+        "description": "Crypto.Util",
+        "isExtraImport": true,
+        "detail": "Crypto.Util",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "importPath": "flatted",
+        "description": "flatted",
+        "isExtraImport": true,
+        "detail": "flatted",
+        "documentation": {}
+    },
+    {
+        "label": "get_wallet_age",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def get_wallet_age(address):\n    url = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n    headers = {\n        \"accept\": \"application/json\",\n        \"api-key\": \"VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx\"\n    }\n    response = requests.get(url, headers=headers)\n    if response.status_code == 200:\n        data = response.json()\n        return data.get(\"data\", {}).get(\"age\", 0)",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_wallet_net_worth",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def get_wallet_net_worth(address):\n    api_key = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjYzOGVjYjYzLWZkMmYtNGQwYi04MmM3LWIwMTY5MzhjMzc4NCIsIm9yZ0lkIjoiMzk0Njg4IiwidXNlcklkIjoiNDA1NTY4IiwidHlwZUlkIjoiZjY0M2Q0NmYtN2FmNS00YjkyLTg1NGItMjdiYmFiMWY5NDZlIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTczMzk2NzQsImV4cCI6NDg3MzA5OTY3NH0.nJGW4mrObwRYKf86zu0lawxKlg3ZYnJQOH4IjvXGtR8\"\n    params = {\n        \"exclude_spam\": True,\n        \"exclude_unverified_contracts\": True,\n        \"address\": address\n    }\n    try:\n        result = evm_api.wallets.get_wallet_net_worth(\n            api_key=api_key,",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_total_deposit",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def calculate_total_deposit(data):\n\tdeposits = {}\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "calculate_interaction_frequency",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "score_address",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10\n    if net_worth_data is not None:\n        total_net_worth = net_worth_data\n        if total_net_worth is not None:",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "index",
+        "kind": 2,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "def index():\n    # Get the page number from the query parameters or default to 1\n    page = request.args.get('page', default=1, type=int)\n    # Calculate the start and end index for the current page\n    start_index = (page - 1) * ROWS_PER_PAGE\n    end_index = start_index + ROWS_PER_PAGE\n    # Slice the table data to get the rows for the current page\n    table_data_page = table_data[start_index:end_index]\n    # Calculate the total number of pages\n    total_pages = len(table_data) // ROWS_PER_PAGE + (1 if len(table_data) % ROWS_PER_PAGE > 0 else 0)",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "app = Flask(__name__)\nurl = \"https://api.etherscan.io/api?module=account&action=txlist&address=0x398eC7346DcD622eDc5ae82352F02bE94C62d119&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=BZ2XSINS4APIJ7UDYN91XF3MCTSY6D5KYI\"\nresponse = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n    url = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n    headers = {\n        \"accept\": \"application/json\",\n        \"api-key\": \"VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx\"\n    }",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "url",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "url = \"https://api.etherscan.io/api?module=account&action=txlist&address=0x398eC7346DcD622eDc5ae82352F02bE94C62d119&startblock=0&endblock=99999999&page=1&offset=1000&sort=desc&apikey=BZ2XSINS4APIJ7UDYN91XF3MCTSY6D5KYI\"\nresponse = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n    url = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n    headers = {\n        \"accept\": \"application/json\",\n        \"api-key\": \"VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx\"\n    }\n    response = requests.get(url, headers=headers)",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "response",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "response = requests.get(url)\ndata = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n    url = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n    headers = {\n        \"accept\": \"application/json\",\n        \"api-key\": \"VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx\"\n    }\n    response = requests.get(url, headers=headers)\n    if response.status_code == 200:",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "data",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "data = response.json()  # Parse response content as JSON\ndef get_wallet_age(address):\n    url = f\"https://api.footprint.network/api/v3/address/getWalletAge?chain=Ethereum&wallet_address={address}\"\n    headers = {\n        \"accept\": \"application/json\",\n        \"api-key\": \"VXKMGo8G+ozLAjidmgOwNewQ3bp1pLp9nIp6UsP9n6rAVul6P9yOAVt5N295K8nx\"\n    }\n    response = requests.get(url, headers=headers)\n    if response.status_code == 200:\n        data = response.json()",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\tdeposits",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\tdeposits = {}\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\ttransfers",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfrom_address",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tfrom_address = transfer[\"from\"]\n\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tvalue",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tvalue = float(transfer[\"value\"]) / (10 ** 18)  # Convert value to ether\n\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfunc",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tfunc = transfer[\"functionName\"]\n\t\tif func == \"deposit(address _reserve, uint256 _amount, uint16 _referralCode)\":\n\t\t\tif from_address in deposits:\n\t\t\t\tdeposits[from_address] += value\n\t\t\telse:\n\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\t\t\tdeposits[from_address]",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\t\t\tdeposits[from_address] = value\n\treturn deposits\n# Function to calculate interaction frequency for each address\ndef calculate_interaction_frequency(data):\n\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\tinteractions",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\tinteractions = defaultdict(list)  # Store timestamps of interactions for each address\n\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\ttransfers",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\ttransfers = data[\"result\"]\n\tfor transfer in transfers:\n\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tfrom_address",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tfrom_address = transfer[\"from\"]\n\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tto_address",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tto_address = transfer[\"to\"]\n\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttimestamp",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\ttimestamp = int(transfer[\"timeStamp\"])  # Convert timestamp to integer\n\t\tinteractions[from_address].append(timestamp)\n\t\tinteractions[to_address].append(timestamp)\n\treturn interactions\n# Calculate total deposit for each address\ntotal_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "total_deposits",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "total_deposits = calculate_total_deposit(data)\n# Calculate interaction frequency for each address\ninteractions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "interactions",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "interactions = calculate_interaction_frequency(data)\ninteraction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "interaction_frequency",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "interaction_frequency = {}\nfor address, ts_list in interactions.items():\n\tif len(ts_list) >= 2:\n\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttime_diffs_days",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\ttime_diffs_days = [(ts_list[i] - ts_list[i - 1]) / (3600 * 24) for i in range(1, len(ts_list))]  # Calculate time differences in days\n\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tavg_time_diff_days",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tavg_time_diff_days = sum(time_diffs_days) / len(time_diffs_days)  # Calculate average time difference in days\n\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\tinteraction_frequency[address]",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\tinteraction_frequency[address] = abs(avg_time_diff_days)\n# Sort the total deposits dictionary by value in descending order\nsorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "sorted_deposits",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "sorted_deposits = dict(sorted(total_deposits.items(), key=lambda item: item[1], reverse=True))\ndef score_address(deposit, frequency, wallet_age, net_worth_data):\n    if frequency == \"N/A\":\n        frequency_score = 5  # Set frequency score to maximum if data is not available\n    else:\n        frequency_score = 10 - min(frequency / 10, 10)  # Score based on inverse of frequency, capped at 10\n    deposit_score = min(deposit / 10, 10)  # Score based on deposit, capped at 10\n    wallet_age_score = min(wallet_age / 10, 10)  # Score based on wallet age, capped at 10\n    if net_worth_data is not None:\n        total_net_worth = net_worth_data",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "ROWS_PER_PAGE",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "ROWS_PER_PAGE = 8\n# Prepare data for rendering\ntable_data = []\nfor address, deposit in sorted_deposits.items():\n\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "table_data",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "table_data = []\nfor address, deposit in sorted_deposits.items():\n\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data\n\telse:",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\tfrequency",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\tfrequency = interaction_frequency.get(address, \"N/A\")\n\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\twallet_age",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\twallet_age = get_wallet_age(address)\n\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\tnet_worth_data",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\tnet_worth_data = get_wallet_net_worth(address)\n\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\toverall_score",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\toverall_score = score_address(deposit, frequency, wallet_age,net_worth_data)\n\t# Fetch net worth\n\tif net_worth_data:\n\t\ttotal_net_worth = net_worth_data\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttotal_net_worth",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\ttotal_net_worth = net_worth_data\n\telse:\n\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,\n\t\t\"wallet_age\": wallet_age,\n\t\t\"overall_score\": overall_score,\n\t\t\"total_net_worth\": total_net_worth",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "\t\ttotal_net_worth",
+        "kind": 5,
+        "importPath": "EvaluateUser.main",
+        "description": "EvaluateUser.main",
+        "peekOfCode": "\t\ttotal_net_worth = \"N/A\"\n\ttable_data.append({\n\t\t\"address\": address,\n\t\t\"deposit\": deposit,\n\t\t\"frequency\": frequency,\n\t\t\"wallet_age\": wallet_age,\n\t\t\"overall_score\": overall_score,\n\t\t\"total_net_worth\": total_net_worth\n\t})\n@app.route('/')",
+        "detail": "EvaluateUser.main",
+        "documentation": {}
+    },
+    {
+        "label": "MappedValue",
+        "kind": 6,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "class MappedValue(object):\n    def __init__(self, parts):\n        self.flags = 0\n        self.rule = parts[0]\n        # If there are two parts, the second part is the mapping in question.\n        if len(parts) > 1 and parts[1]:\n            self.chars = ''.join(map(lambda u: unichr(int(u, 16)),\n                parts[1].split(' ')))\n        else:\n            self.chars = ''",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "download_unicode",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def download_unicode(version):\n    idna_tables = \"http://www.unicode.org/Public/idna/\" + version\n    infd = urllib2.urlopen(idna_tables + \"/IdnaTest.txt\")\n    #with open(\"test/test-idna2.js\", \"w\") as outfd:\n    #    build_test_code(infd, outfd)\n    with open(\"test/IdnaTest.txt\", \"w\") as outfd:\n        for line in infd:\n            outfd.write(line)\n    infd.close()\n    infd = urllib2.urlopen(idna_tables + \"/IdnaMappingTable.txt\")",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "parse_unicode_data_file",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def parse_unicode_data_file(fd):\n    '''Yield a generator of (start, end, fields) for the given Unicode data\n    file. These files are of the same basic format: a semicolon-delimited set\n    of columns, where the first column is either a single element or a range of\n    characters. In this case, the range implied by start and end are\n    inclusive.'''\n    for line in fd:\n        pos = line.find('#')\n        if pos >= 0: line = line[:pos]\n        line = line.strip()",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "utf16len",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def utf16len(string):\n    return sum(2 if ord(c) > 0xffff else 1 for c in string)\nclass MappedValue(object):\n    def __init__(self, parts):\n        self.flags = 0\n        self.rule = parts[0]\n        # If there are two parts, the second part is the mapping in question.\n        if len(parts) > 1 and parts[1]:\n            self.chars = ''.join(map(lambda u: unichr(int(u, 16)),\n                parts[1].split(' ')))",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "build_unicode_map",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def build_unicode_map(idnaMapTable, out, derivedGeneralCategory):\n    unicharMap = [0] * NUM_UCHAR\n    vals = []\n    for start, end, parts in parse_unicode_data_file(idnaMapTable):\n        for ch in range(start, end + 1):\n            value = MappedValue(parts)\n            vals.append(value)\n            unicharMap[ch] = value\n    # Note which characters have the combining mark property.\n    for start, end, parts in parse_unicode_data_file(derivedGeneralCategory):",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "find_block_sizes",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def find_block_sizes(unicharMap):\n    for lg_block_size in range(1, 15):\n        block_size = 1 << lg_block_size\n        memUsage, blocks = compute_block_size(unicharMap, block_size)\n        yield memUsage, lg_block_size, blocks\ndef compute_block_size(unicharMap, block_size):\n    blocks = set()\n    for i in range(0, len(unicharMap), block_size):\n        block = tuple(unicharMap[i:i + block_size])\n        blocks.add(block)",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "compute_block_size",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def compute_block_size(unicharMap, block_size):\n    blocks = set()\n    for i in range(0, len(unicharMap), block_size):\n        block = tuple(unicharMap[i:i + block_size])\n        blocks.add(block)\n    num = len(blocks)\n    if num < 256:\n        mem = len(unicharMap) / block_size\n    elif num < 0x10000:\n        mem = 2 * len(unicharMap) / block_size",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "convert_escape",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def convert_escape(string):\n    return string\n# These functions build the test IDNA vectors.\ndef build_body(mode, test_vector, func, expected):\n    lines = []\n    if expected[0] == '[':\n        if not re.search('[AVP]', expected):\n            return []\n        if mode == 'T' or mode == 'B':\n            lines.append(\"assert.throws(function () { %s(\\\"%s\\\", true); });\" %",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "build_body",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def build_body(mode, test_vector, func, expected):\n    lines = []\n    if expected[0] == '[':\n        if not re.search('[AVP]', expected):\n            return []\n        if mode == 'T' or mode == 'B':\n            lines.append(\"assert.throws(function () { %s(\\\"%s\\\", true); });\" %\n                (func, test_vector))\n        if mode == 'N' or mode == 'B':\n            lines.append(\"assert.throws(function () { %s(\\\"%s\\\", false); });\" %",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "build_test_code",
+        "kind": 2,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "def build_test_code(infd, out):\n    out.write(\"/* This file is generated from the Unicode IDNA table, using\\n\")\n    out.write(\"   the build-unicode-tables.py script. Please edit that\\n\")\n    out.write(\"   script instead of this file. */\\n\\n\")\n    out.write(\"var assert = require(\\\"assert\\\");\\n\")\n    out.write(\"var uts46 = require(\\\"../utr46-gold\\\");\\n\\n\")\n    out.write(\"\"\"\nfunction toAscii(input, transitional) {\n  return uts46.toAscii(input, true, transitional, true);\n}",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "NUM_UCHAR",
+        "kind": 5,
+        "importPath": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "description": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "peekOfCode": "NUM_UCHAR = 0x10ffff + 1\ndef download_unicode(version):\n    idna_tables = \"http://www.unicode.org/Public/idna/\" + version\n    infd = urllib2.urlopen(idna_tables + \"/IdnaTest.txt\")\n    #with open(\"test/test-idna2.js\", \"w\") as outfd:\n    #    build_test_code(infd, outfd)\n    with open(\"test/IdnaTest.txt\", \"w\") as outfd:\n        for line in infd:\n            outfd.write(line)\n    infd.close()",
+        "detail": "backend.node_modules.idna-uts46-hx.build-unicode-tables",
+        "documentation": {}
+    },
+    {
+        "label": "NoIndent",
+        "kind": 6,
+        "importPath": "frontend.node_modules.aes-js.generate-tests",
+        "description": "frontend.node_modules.aes-js.generate-tests",
+        "peekOfCode": "class NoIndent(object):\n    def __init__(self, value):\n        self.value = value\ndef default(o, encoder=json.JSONEncoder()):\n    if isinstance(o, NoIndent):\n        return '__' + json.dumps(o.value) + '__'\n    return encoder.default(o)\nimport os, time\nTests = []\n# compare against a known working implementation",
+        "detail": "frontend.node_modules.aes-js.generate-tests",
+        "documentation": {}
+    },
+    {
+        "label": "default",
+        "kind": 2,
+        "importPath": "frontend.node_modules.aes-js.generate-tests",
+        "description": "frontend.node_modules.aes-js.generate-tests",
+        "peekOfCode": "def default(o, encoder=json.JSONEncoder()):\n    if isinstance(o, NoIndent):\n        return '__' + json.dumps(o.value) + '__'\n    return encoder.default(o)\nimport os, time\nTests = []\n# compare against a known working implementation\nfrom Crypto.Cipher import AES as KAES\nfrom Crypto.Util import Counter as KCounter\nfor mode in [ 'CBC', 'CTR',  'CFB', 'ECB', 'OFB' ]:",
+        "detail": "frontend.node_modules.aes-js.generate-tests",
+        "documentation": {}
+    },
+    {
+        "label": "Tests",
+        "kind": 5,
+        "importPath": "frontend.node_modules.aes-js.generate-tests",
+        "description": "frontend.node_modules.aes-js.generate-tests",
+        "peekOfCode": "Tests = []\n# compare against a known working implementation\nfrom Crypto.Cipher import AES as KAES\nfrom Crypto.Util import Counter as KCounter\nfor mode in [ 'CBC', 'CTR',  'CFB', 'ECB', 'OFB' ]:\n    (tt_ksetup, tt_kencrypt, tt_kdecrypt) = (0.0, 0.0, 0.0)\n    (tt_setup, tt_encrypt, tt_decrypt) = (0.0, 0.0, 0.0)\n    count = 0\n    for key_size in (128, 192, 256):\n        for test in xrange(1, 8):",
+        "detail": "frontend.node_modules.aes-js.generate-tests",
+        "documentation": {}
+    },
+    {
+        "label": "reJavaScript",
+        "kind": 5,
+        "importPath": "frontend.node_modules.aes-js.run-readme",
+        "description": "frontend.node_modules.aes-js.run-readme",
+        "peekOfCode": "reJavaScript = re.compile('```javascript((.|\\n)*?)```')\nreadmeData = file('README.md').read()\nprint 'const aesjs = require(\"./index.js\");'\nfor (example, nl) in reJavaScript.findall(readmeData):\n    print 'console.log(\"=====================\");'\n    print '(function() {'\n    print '    try {'\n    print 'console.log(%r)' % example\n    for line in example.split('\\n'):\n        print (' ' * 8) + line",
+        "detail": "frontend.node_modules.aes-js.run-readme",
+        "documentation": {}
+    },
+    {
+        "label": "readmeData",
+        "kind": 5,
+        "importPath": "frontend.node_modules.aes-js.run-readme",
+        "description": "frontend.node_modules.aes-js.run-readme",
+        "peekOfCode": "readmeData = file('README.md').read()\nprint 'const aesjs = require(\"./index.js\");'\nfor (example, nl) in reJavaScript.findall(readmeData):\n    print 'console.log(\"=====================\");'\n    print '(function() {'\n    print '    try {'\n    print 'console.log(%r)' % example\n    for line in example.split('\\n'):\n        print (' ' * 8) + line\n    print '    } catch (error) { console.log(\"ERROR: \",  error); }'",
+        "detail": "frontend.node_modules.aes-js.run-readme",
+        "documentation": {}
+    },
+    {
+        "label": "_Known",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _Known:\n    def __init__(self):\n        self.key = []\n        self.value = []\nclass _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "_String",
+        "kind": 6,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "class _String:\n    def __init__(self, value):\n        self.value = value\ndef _array_keys(value):\n    keys = []\n    i = 0\n    for _ in value:\n        keys.append(i)\n        i += 1\n    return keys",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "parse",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def parse(value, *args, **kwargs):\n    json = _json.loads(value, *args, **kwargs)\n    wrapped = []\n    for value in json:\n        wrapped.append(_wrap(value))\n    input = []\n    for value in wrapped:\n        if isinstance(value, _String):\n            input.append(value.value)\n        else:",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.flatted",
+        "description": "frontend.node_modules.flatted.python.flatted",
+        "peekOfCode": "def stringify(value, *args, **kwargs):\n    known = _Known()\n    input = []\n    output = []\n    i = int(_index(known, input, value))\n    while i < len(input):\n        output.append(_transform(known, input, input[i]))\n        i += 1\n    return _json.dumps(output, *args, **kwargs)",
+        "detail": "frontend.node_modules.flatted.python.flatted",
+        "documentation": {}
+    },
+    {
+        "label": "stringify",
+        "kind": 2,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "def stringify(value):\n    return _stringify(value, separators=(',', ':'))\nassert stringify([None, None]) == '[[null,null]]'\na = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "a",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "a = []\no = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o = {}\nassert stringify(a) == '[[]]'\nassert stringify(o) == '[{}]'\na.append(a)\no['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['o']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['o'] = o\nassert stringify(a) == '[[\"0\"]]'\nassert stringify(o) == '[{\"o\":\"0\"}]'\nb = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "b",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "b = parse(stringify(a))\nassert isinstance(b, list) and b[0] == b\na.append(1)\na.append('two')\na.append(True)\no['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['one']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['one'] = 1\no['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['two']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['two'] = 'two'\no['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['three']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['three'] = True\nassert stringify(a) == '[[\"0\",1,\"1\",true],\"two\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true},\"two\"]'\na.append(o)\no['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['a']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['a'] = a\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\"}]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\"},\"two\",[\"2\",1,\"1\",true,\"0\"]]'\na.append({'test': 'OK'})\na.append([1, 2, 3])\no['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['test']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['test'] = {'test': 'OK'}\no['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o['array']",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o['array'] = [1, 2, 3]\nassert stringify(a) == '[[\"0\",1,\"1\",true,\"2\",\"3\",\"4\"],\"two\",{\"o\":\"2\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"0\",\"test\":\"3\",\"array\":\"4\"},{\"test\":\"5\"},[1,2,3],\"OK\"]'\nassert stringify(o) == '[{\"o\":\"0\",\"one\":1,\"two\":\"1\",\"three\":true,\"a\":\"2\",\"test\":\"3\",\"array\":\"4\"},\"two\",[\"2\",1,\"1\",true,\"0\",\"3\",\"4\"],{\"test\":\"5\"},[1,2,3],\"OK\"]'\na2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "a2",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "a2 = parse(stringify(a));\no2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "o2",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "o2 = parse(stringify(o));\nassert a2[0] == a2\nassert o2['o'] == o2\nassert a2[1] == 1 and a2[2] == 'two' and a2[3] == True and isinstance(a2[4], dict)\nassert a2[4] == a2[4]['o'] and a2 == a2[4]['o']['a']\nstr = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "str",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "str = parse('[{\"prop\":\"1\",\"a\":\"2\",\"b\":\"3\"},{\"value\":123},[\"4\",\"5\"],{\"e\":\"6\",\"t\":\"7\",\"p\":4},{},{\"b\":\"8\"},\"f\",{\"a\":\"9\"},[\"10\"],\"sup\",{\"a\":1,\"d\":2,\"c\":\"7\",\"z\":\"11\",\"h\":1},{\"g\":2,\"a\":\"7\",\"b\":\"12\",\"f\":6},{\"r\":4,\"u\":\"7\",\"c\":5}]')\nassert str['b']['t']['a'] == 'sup' and str['a'][1]['b'][0]['c'] == str['b']['t']\noo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "oo",
+        "kind": 5,
+        "importPath": "frontend.node_modules.flatted.python.test",
+        "description": "frontend.node_modules.flatted.python.test",
+        "peekOfCode": "oo = parse('[{\"a\":\"1\",\"b\":\"0\",\"c\":\"2\"},{\"aa\":\"3\"},{\"ca\":\"4\",\"cb\":\"5\",\"cc\":\"6\",\"cd\":\"7\",\"ce\":\"8\",\"cf\":\"9\"},{\"aaa\":\"10\"},{\"caa\":\"4\"},{\"cba\":\"5\"},{\"cca\":\"2\"},{\"cda\":\"4\"},\"value2\",\"value3\",\"value1\"]');\nassert oo['a']['aa']['aaa'] == 'value1' and oo == oo['b'] and oo['c']['ca']['caa'] == oo['c']['ca']\nprint('OK')",
+        "detail": "frontend.node_modules.flatted.python.test",
+        "documentation": {}
+    },
+    {
+        "label": "get_wallet_net_worth",
+        "kind": 2,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "def get_wallet_net_worth(address):\n    api_key = \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6IjYzOGVjYjYzLWZkMmYtNGQwYi04MmM3LWIwMTY5MzhjMzc4NCIsIm9yZ0lkIjoiMzk0Njg4IiwidXNlcklkIjoiNDA1NTY4IiwidHlwZUlkIjoiZjY0M2Q0NmYtN2FmNS00YjkyLTg1NGItMjdiYmFiMWY5NDZlIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE3MTczMzk2NzQsImV4cCI6NDg3MzA5OTY3NH0.nJGW4mrObwRYKf86zu0lawxKlg3ZYnJQOH4IjvXGtR8\"\n    params = {\n        \"exclude_spam\": True,\n        \"exclude_unverified_contracts\": True,\n        \"address\": address\n    }\n    try:\n        result = evm_api.wallets.get_wallet_net_worth(\n            api_key=api_key,",
+        "detail": "test",
+        "documentation": {}
+    },
+    {
+        "label": "address",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "address = \"0x69dcb0a3ab51c7adaf110e6f119d886989b53ec8\"\nans = get_wallet_net_worth(address)\nprint(ans)",
+        "detail": "test",
+        "documentation": {}
+    },
+    {
+        "label": "ans",
+        "kind": 5,
+        "importPath": "test",
+        "description": "test",
+        "peekOfCode": "ans = get_wallet_net_worth(address)\nprint(ans)",
+        "detail": "test",
+        "documentation": {}
+    }
+]
